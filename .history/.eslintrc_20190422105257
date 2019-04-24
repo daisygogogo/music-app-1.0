@@ -1,0 +1,12 @@
+{
+    "extends": "airbnb",
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "html",
+        "vue"
+    ],
+    "rules": {
+      "no-console": "off"
+    }
+  }

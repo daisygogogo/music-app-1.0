@@ -1,0 +1,21 @@
+<template>
+	<div class="header-wrapper">
+	<img class="icon" :src="iconUrl">
+	Chicken Music
+	</div>
+ </template>
+
+ <script>
+    export default {
+    	data(){
+    		return{
+    			iconUrl:require("common/images/default.png")
+    		}
+    		
+    	}
+  }
+</script>
+
+ <style scoped lang="stylus">
+
+</style>

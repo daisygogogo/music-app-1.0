@@ -1,0 +1,14 @@
+{
+    "extends":  ["plugin:vue/essential","airbnb-base"],
+    "env": {
+        "node": true
+      },
+    "parserOptions": {
+        "parser": "babel-eslint"
+      },
+    "rules": {
+      "no-console": "off",
+      "linebreak-style": "off",
+      "import/no-unresolved": "off"
+    }
+  }
