@@ -4,7 +4,7 @@
       <slot></slot>
     </div>
     <div class="dots">
-      <div class="dot" v-for="(item,index) in dots" :class="currentIndex==index?'active':''" :key="index"></div>
+      <div class="dot" v-for="(item,index) in dots" :class="currentIndex==index?'active':''"></div>
     </div>
   </div>
 </template>
@@ -113,9 +113,6 @@ export default {
         this.scroll.next();
       }, this.interval);
     }
-  },
-  destroyed(){
-    clearTimeout(this.timer);
   }
 };
 </script>

@@ -113,9 +113,6 @@ export default {
         this.scroll.next();
       }, this.interval);
     }
-  },
-  destroyed(){
-    clearTimeout(this.timer);
   }
 };
 </script>

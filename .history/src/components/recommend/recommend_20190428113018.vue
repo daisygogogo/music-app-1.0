@@ -129,7 +129,7 @@ export default {
        }
      }
    }
-    
+
   //  .hot-list {
   //    display: flex;
   //    justify-content: space-evenly;
