@@ -9,31 +9,32 @@
   </div>
 </template>
 
- <script>
-import addClass from "common/js/addClass";
-import { setTimeout } from "timers";
-import BScroll from "better-scroll";
+<script>
+import { addClass } from 'common/js/dom';
+import { setTimeout } from 'timers';
+import BScroll from 'better-scroll';
+
 export default {
   data() {
     return {
       dots: [],
       currentIndex: 0,
-      timer: null
+      timer: null,
     };
   },
   props: {
     loop: {
       type: Boolean,
-      default: true
+      default: true,
     },
     autoPlay: {
       type: Boolean,
-      default: true
+      default: true,
     },
     interval: {
       type: Number,
-      default: 4000
-    }
+      default: 4000,
+    },
   },
   mounted() {
     setTimeout(() => {
@@ -45,7 +46,7 @@ export default {
       }
     }, 20);
 
-    window.addEventListener("resize", () => {
+    window.addEventListener('resize', () => {
       if (!this.scroll) {
         return;
       }
@@ -55,15 +56,15 @@ export default {
   },
   methods: {
     _setSliderWidth(isResize) {
-      let sliderWidth = this.$refs.slider.clientWidth;
+      const sliderWidth = this.$refs.slider.clientWidth;
       this.children = this.$refs.sliderGroup.children;
 
       let width = 0;
 
       for (let i = 0; i < this.children.length; i++) {
-        let child = this.children[i];
-        addClass(child, "slider-item");
-        child.style.width = sliderWidth + "px";
+        const child = this.children[i];
+        addClass(child, 'slider-item');
+        child.style.width = `${sliderWidth}px`;
         width += sliderWidth;
       }
 
@@ -71,7 +72,7 @@ export default {
         width += 2 * sliderWidth;
       }
 
-      this.$refs.sliderGroup.style.width = width + "px";
+      this.$refs.sliderGroup.style.width = `${width}px`;
     },
     _initDots() {
       this.dots = new Array(this.children.length);
@@ -83,25 +84,25 @@ export default {
         momentum: false, // 滚动动画
         snap: {
           loop: this.loop,
-          threshold: 0.3
-        }
+          threshold: 0.3,
+        },
       });
 
-      this.scroll.on("scrollEnd", () => {
-        let pageIndex = this.scroll.getCurrentPage().pageX;
+      this.scroll.on('scrollEnd', () => {
+        const pageIndex = this.scroll.getCurrentPage().pageX;
         this.currentIndex = pageIndex;
         if (this.autoPlay) {
           this._handleAutoPlay();
         }
       });
 
-      this.scroll.on("touchEnd", () => {
+      this.scroll.on('touchEnd', () => {
         if (this.autoPlay) {
           clearTimeout(this.timer);
         }
       });
 
-      this.scroll.on("beforeScrollStart", () => {
+      this.scroll.on('beforeScrollStart', () => {
         if (this.autoPlay) {
           clearTimeout(this.timer);
         }
@@ -112,11 +113,11 @@ export default {
       this.timer = setTimeout(() => {
         this.scroll.next();
       }, this.interval);
-    }
+    },
   },
-  destroyed(){
+  destroyed() {
     clearTimeout(this.timer);
-  }
+  },
 };
 </script>
 
