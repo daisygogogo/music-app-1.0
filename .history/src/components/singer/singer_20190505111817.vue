@@ -94,7 +94,7 @@ export default {
       this.$router.push({
         path: `/singer/${singer.id}`
       });
-      this.setSinger(singer);
+      this.$store.state.singer=singer;
     },
     normalizeSingers(list) {
       // 格式化抓取回来的数据

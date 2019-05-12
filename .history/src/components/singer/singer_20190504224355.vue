@@ -16,12 +16,7 @@
           ref="singerGroup"
         >
           <h1 class="title">{{item.title}}</h1>
-          <div
-            class="singer"
-            v-for="singer in item.items"
-            :key="singer.id"
-            @click="toSingerDetail(singer)"
-          >
+          <div class="singer" v-for="singer in item.items" :key="singer.id">
             <img width="40" height="40" class="avatar" v-lazy="singer.avatar">
             <span class="name">{{singer.name}}</span>
           </div>
@@ -49,16 +44,15 @@
 </template>
 
 <script>
-import Singer from "common/js/singer";
-import { getSingerList } from "api/singer";
-import { ERR_OK } from "api/config";
-import Scroll from "base/scroll/scroll";
-import { getData } from "common/js/dom";
-import Loading from "base/loading/loading";
-import {mapMutations} from 'vuex'
+import Singer from 'common/js/singer';
+import { getSingerList } from 'api/singer';
+import { ERR_OK } from 'api/config';
+import Scroll from 'base/scroll/scroll';
+import { getData } from 'common/js/dom';
+import Loading from 'base/loading/loading';
 
 const HOT_LIST = 10; // hot歌手长度
-const HOT_TITLE = "热门";
+const HOT_TITLE = '热门';
 const ANCHOR_HEIGHT = 18.68; // 右侧快速入口，每一项之间的距离，自己根据布局计算而来
 const TITLE_HEIGHT = 30; // 顶部固定标题栏高度
 
@@ -70,14 +64,14 @@ export default {
       shortCutList: [], // 右侧快速入口
       scrollY: -1,
       listHeight: [],
-      fixedTitle: "", // 顶部固定标题
+      fixedTitle: '', // 顶部固定标题
       diff: -1,
-      transformY: 0 // 顶部固定标题的transform
+      transformY: 0, // 顶部固定标题的transform
     };
   },
   components: {
     Scroll,
-    Loading
+    Loading,
   },
   created() {
     this._getSingerList();
@@ -89,28 +83,33 @@ export default {
     const self = this;
   },
   methods: {
-    toSingerDetail(singer) {
-      console.log(singer);
-      this.$router.push({
-        path: `/singer/${singer.id}`
+    _getSingerList() {
+      const self = this;
+      getSingerList().then((res) => {
+        if (res.code == ERR_OK) {
+          this.singers = this.normalizeSingers(res.data.list);
+          this.$nextTick(() => {
+            self.$refs.singerScroll.refresh();
+            self.getListHeight();
+          });
+        }
       });
-      this.setSinger(singer);
     },
     normalizeSingers(list) {
       // 格式化抓取回来的数据
       const map = {
         hot: {
           title: HOT_TITLE,
-          items: []
-        }
+          items: [],
+        },
       };
       list.forEach((item, index) => {
         if (index < HOT_LIST) {
           map.hot.items.push(
             new Singer({
               id: item.Fsinger_mid,
-              name: item.Fsinger_name
-            })
+              name: item.Fsinger_name,
+            }),
           );
         }
 
@@ -118,14 +117,14 @@ export default {
         if (!map[key]) {
           map[key] = {
             title: key,
-            items: []
+            items: [],
           };
         }
         map[key].items.push(
           new Singer({
             id: item.Fsinger_mid,
-            name: item.Fsinger_name
-          })
+            name: item.Fsinger_name,
+          }),
         );
       });
 
@@ -147,7 +146,7 @@ export default {
     },
     onShortCutTouchStart(e) {
       // 点击右侧菜单，滚动到相应的位置
-      const anchorIndex = getData(e.target, "index");
+      const anchorIndex = getData(e.target, 'index');
       this.currentIndex = anchorIndex;
       this.touch.y1 = e.touches[0].pageY;
       this.touch.anchorIndex = parseInt(anchorIndex);
@@ -176,23 +175,11 @@ export default {
     _scrollTo(index) {
       this.$refs.singerScroll.scrollToElement(this.$refs.singerGroup[index]);
     },
-    _getSingerList() {
-      const self = this;
-      getSingerList().then(res => {
-        if (res.code == ERR_OK) {
-          this.singers = this.normalizeSingers(res.data.list);
-          this.$nextTick(() => {
-            self.$refs.singerScroll.refresh();
-            self.getListHeight();
-          });
-        }
-      });
-    },
     _getCurrentIndex(newY) {
       // 当滚动到顶部，newY大于0的时候
       if (newY > 0) {
         this.currentIndex = 0;
-        this.fixedTitle = "";
+        this.fixedTitle = '';
         return;
       }
 
@@ -218,28 +205,24 @@ export default {
         this.fixedTitle = this.singers[index].title;
       }
     },
-    ...mapMutations({
-      setSinger:'SET_SINGER'
-    })
   },
   computed: {
     shortcutList() {
       return this.singers.map(group => group.title.substr(0, 1));
-    }
+    },
   },
   watch: {
     scrollY(val) {
       this._getCurrentIndex(val);
     },
     diff(newVal) {
-      const fixedTop =
-        newVal > 0 && newVal < TITLE_HEIGHT ? newVal - TITLE_HEIGHT : 0;
+      const fixedTop = newVal > 0 && newVal < TITLE_HEIGHT ? newVal : 0;
       if (fixedTop === this.transformY) {
         return;
       }
       this.transformY = fixedTop;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -248,15 +231,14 @@ export default {
 
  .singer-wrapper {
    position: fixed;
-   top: 75px;
+   top: 68px;
    bottom: 0;
    width: 100%;
-   overflow: hidden;
+   z-index: -1;
  }
 
  .singer-scroll {
    height: 100%;
-   overflow: hidden;
  }
 
  .singer-group {
@@ -312,7 +294,7 @@ export default {
  .fiexed_title {
    position: absolute;
    left: 0;
-   top: -2px;
+   top: 0;
    width: 100%;
 
    .title {

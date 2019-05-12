@@ -55,7 +55,6 @@ import { ERR_OK } from "api/config";
 import Scroll from "base/scroll/scroll";
 import { getData } from "common/js/dom";
 import Loading from "base/loading/loading";
-import {mapMutations} from 'vuex'
 
 const HOT_LIST = 10; // hot歌手长度
 const HOT_TITLE = "热门";
@@ -94,7 +93,6 @@ export default {
       this.$router.push({
         path: `/singer/${singer.id}`
       });
-      this.setSinger(singer);
     },
     normalizeSingers(list) {
       // 格式化抓取回来的数据
@@ -217,10 +215,7 @@ export default {
       if (this.singers && this.singers[index] && this.singers[index].title) {
         this.fixedTitle = this.singers[index].title;
       }
-    },
-    ...mapMutations({
-      setSinger:'SET_SINGER'
-    })
+    }
   },
   computed: {
     shortcutList() {

@@ -16,12 +16,7 @@
           ref="singerGroup"
         >
           <h1 class="title">{{item.title}}</h1>
-          <div
-            class="singer"
-            v-for="singer in item.items"
-            :key="singer.id"
-            @click="toSingerDetail(singer)"
-          >
+          <div class="singer" v-for="singer in item.items" :key="singer.id" @click="toSingerDetail(singer)">
             <img width="40" height="40" class="avatar" v-lazy="singer.avatar">
             <span class="name">{{singer.name}}</span>
           </div>
@@ -55,7 +50,6 @@ import { ERR_OK } from "api/config";
 import Scroll from "base/scroll/scroll";
 import { getData } from "common/js/dom";
 import Loading from "base/loading/loading";
-import {mapMutations} from 'vuex'
 
 const HOT_LIST = 10; // hot歌手长度
 const HOT_TITLE = "热门";
@@ -89,12 +83,11 @@ export default {
     const self = this;
   },
   methods: {
-    toSingerDetail(singer) {
-      console.log(singer);
+    toSingerDetail(singer){
+      console.log(singer)
       this.$router.push({
-        path: `/singer/${singer.id}`
-      });
-      this.setSinger(singer);
+        path:`/singer/${singer.id}`
+      })
     },
     normalizeSingers(list) {
       // 格式化抓取回来的数据
@@ -176,7 +169,7 @@ export default {
     _scrollTo(index) {
       this.$refs.singerScroll.scrollToElement(this.$refs.singerGroup[index]);
     },
-    _getSingerList() {
+        _getSingerList() {
       const self = this;
       getSingerList().then(res => {
         if (res.code == ERR_OK) {
@@ -217,10 +210,7 @@ export default {
       if (this.singers && this.singers[index] && this.singers[index].title) {
         this.fixedTitle = this.singers[index].title;
       }
-    },
-    ...mapMutations({
-      setSinger:'SET_SINGER'
-    })
+    }
   },
   computed: {
     shortcutList() {
@@ -232,8 +222,7 @@ export default {
       this._getCurrentIndex(val);
     },
     diff(newVal) {
-      const fixedTop =
-        newVal > 0 && newVal < TITLE_HEIGHT ? newVal - TITLE_HEIGHT : 0;
+      const fixedTop = newVal > 0 && newVal < TITLE_HEIGHT ? newVal : 0;
       if (fixedTop === this.transformY) {
         return;
       }
@@ -248,15 +237,14 @@ export default {
 
  .singer-wrapper {
    position: fixed;
-   top: 75px;
+   top: 74px;
    bottom: 0;
    width: 100%;
-   overflow: hidden;
  }
 
  .singer-scroll {
    height: 100%;
-   overflow: hidden;
+   overflow:hidden;
  }
 
  .singer-group {
@@ -312,7 +300,7 @@ export default {
  .fiexed_title {
    position: absolute;
    left: 0;
-   top: -2px;
+   top: 0;
    width: 100%;
 
    .title {
