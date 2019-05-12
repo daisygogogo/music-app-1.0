@@ -1,1 +1,0 @@
-import originalJsopn from 'jsonp';
