@@ -4,7 +4,8 @@ import Vue from 'vue';
 import VueLazyLoad from 'vue-lazyload';
 import App from './App.vue';
 import router from './router';
-import store from './store'
+import store from './store';
+import toastRegistry from 'common/toast/index';
 
 import 'common/stylus/index.styl';
 
@@ -14,6 +15,8 @@ Vue.use(VueLazyLoad, {
   error: require('common/images/default.png'),
   loading: require('common/images/default.png'),
 });
+
+Vue.use(toastRegistry);
 
 Vue.config.productionTip = false;
 

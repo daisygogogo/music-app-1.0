@@ -50,7 +50,7 @@
 
 <script>
 import Singer from "common/js/singer";
-import { getSingerList } from "api/singer";
+import { getSingerList, getPurlUrl } from "api/singer";
 import { ERR_OK } from "api/config";
 import Scroll from "base/scroll/scroll";
 import { getData } from "common/js/dom";
@@ -90,7 +90,6 @@ export default {
   },
   methods: {
     toSingerDetail(singer) {
-      console.log(singer);
       this.$router.push({
         path: `/singer/${singer.id}`
       });

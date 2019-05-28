@@ -1,7 +1,7 @@
 <template>
   <transition name="slide_animation">
     <div class="singer_detail">
-      <div class="back">
+      <div class="back" @click="back">
         <i class="icon-back"></i>
       </div>
       <div class="title">{{title}}</div>
@@ -20,7 +20,7 @@
       >
       <ul class="music_list">
               
-        <li class="list_item" v-for="song in songList" :key="song.id">
+        <li class="list_item" v-for="(song,index) in songList" :key="song.id" @click="selectPlay(song, index)">
           <div class="item_right">
             <h1 class="item_right_songname">{{song.name}}</h1>
             <p class="item_right_singername">{{song.singer}}</p>
@@ -80,6 +80,12 @@ export default {
   methods:{
     scroll(e){
       this.scrollY = e.y;
+    },
+    selectPlay(song,index){
+     this.$store.dispatch('selectPlay',{list:this.songList,index:index})
+    },
+    back(){
+      this.$router.back(-1);
     }
   },
   watch:{

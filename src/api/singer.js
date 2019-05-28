@@ -1,17 +1,6 @@
 import jsonp from 'common/js/jsonp';
+import axios from './axios'
 import { commonParams, options } from './config';
-
-// export function getSingerList(){
-//     const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
-
-//     const data = Object.assign({},commonParams,{
-//         platform: 'h5',
-//         uin: 0,
-//         needNewCode: 1
-//     })
-
-//     return jsonp(url, data, options)
-// }
 
 export function getSingerList() {
   const url = 'https://c.y.qq.com/v8/fcg-bin/v8.fcg';
@@ -46,3 +35,35 @@ export function getSingerDetail(singerId) {
 
   return jsonp(url, data, options)
 }
+
+
+export function getPurlUrl(songmid, songtype) {
+  const data = {
+    comm: {
+      format: "json",
+      g_tk: 5381,
+      inCharset: "utf-8",
+      needNewCode: 1,
+      notice: 0,
+      outCharset: "utf-8",
+      platform: "h5",
+      uin: 0
+    },
+    req_0: {
+      method: "CgiGetVkey",
+      module: "vkey.GetVkeyServer",
+      param: {
+        guid: "8014968670",
+        loginflag: 0,
+        platform: "23",
+        songmid: songmid,
+        songtype: songtype,
+        uin: "0"
+      }
+    }
+  }
+  return axios.post(`/api/getPurlUrl`,
+    data)
+}
+
+
